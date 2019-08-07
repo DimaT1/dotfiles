@@ -1,0 +1,7 @@
+[user]
+	email = dymych99@gmail.com
+	name = DimaT1
+[core]
+	excludesfile = /home/dim/.gitignore
+[diff]
+	tool = vimdiff
