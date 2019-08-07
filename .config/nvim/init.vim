@@ -158,11 +158,16 @@ augroup neomake_skip
 	autocmd BufEnter,InsertLeave,TextChanged * call CheckNeomakeSkip()
 augroup END
 
+let g:neomake_python_pylint_maker = {
+    \ 'args': [
+    \ '-d', 'C0103,C0111',
+    \ ],
+    \ }
 
 let g:neomake_highlight_lines = 1
 let g:neomake_highlight_columns = 0
 let g:neomake_shellcheck_args = ['-fgcc']
-let g:neomake_python_enabled_makers = ['python', 'flake8', 'mypy', 'pylint']
+let g:neomake_python_enabled_makers = ['python3', 'flake8', 'mypy', 'pylint']
 
 let g:neomake_error_sign = {
     \ 'text': nr2char(10007),
