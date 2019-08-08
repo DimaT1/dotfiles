@@ -26,9 +26,6 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-setxkbmap -option caps:swapescape
-xinput set-float-prop "SynPS/2 Synaptics TouchPad" "libinput Accel Speed" -0.7
-feh --bg-scale ~/Pictures/wg12.jpg
-xset r rate 300 50
-msi-keyboard -m normal -c left,white,low -c middle,white,low -c right,white,low
-
+# xinput set-float-prop "SynPS/2 Synaptics TouchPad" "libinput Accel Speed" -0.7
+# feh --bg-scale ~/Pictures/wg12.jpg
+# msi-keyboard -m normal -c left,white,low -c middle,white,low -c right,white,low

@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 3
 gaps inner 0
 gaps outer 0
 
@@ -185,7 +185,7 @@ bindsym $mod+r mode "resize"
 #        status_command ~/battery.sh
 #}
 bar {
-	font pango:mono 8
+	font pango:mono 10
 	status_command i3blocks
 	position bottom
 	mode dock
@@ -221,7 +221,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle       # 
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
-bindsym $mod+w exec --no-startup-id ~/.programs/waterfox/waterfox
+bindsym $mod+w exec --no-startup-id waterfox
 bindsym $mod+t exec --no-startup-id telegram-desktop #/home/dim/.config/i3/connect_wifi.sh
 bindsym $mod+e exec --no-startup-id st -e ranger
 bindsym $mod+y exec --no-startup-id ~/scripts/rc_list.sh 2>/dev/null
@@ -249,7 +249,8 @@ bindsym $mod+u exec --no-startup-id urxvt -name dropdown
 
 
 # exec --no-startup-id "setxkbmap -model pc105 -layout us,gr -option grp:alt_shift_toggle"
-exec --no-startup-id setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
+exec --no-startup-id setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle -option caps:swapescape
+exec --no-startup-id xset r rate 300 50
 
 
 set $Locker i3lock && sleep 1
