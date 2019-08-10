@@ -116,14 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Path to the bash it configuration
-export BASH_IT="/home/dim/.bash_it"
-
-# Lock and Load a custom theme file.
-# Leave empty to disable theming.
-# location /.bash_it/themes/
-export BASH_IT_THEME='powerline-plain'
-
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
 # export BASH_IT_REMOTE='bash-it'
@@ -168,22 +160,20 @@ export SCM_CHECK=true
 # Uncomment this to make Bash-it create alias reload.
 # export BASH_IT_RELOAD_LEGACY=1
 
-# Load Bash It
-source "$BASH_IT"/bash_it.sh
-
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 export PAGER=less
 
-diff="diff --color=auto"
+alias diff="diff --color=auto"
 
 alias v="nvim"
 alias r="ranger"
 alias vf="/home/dim/.config/vifm/scripts/vifmrun"
-alias p3="python3"
+alias p3="pip3"
 alias p="python3"
 alias p3i="pip3 install"
+alias p3u="pip3 uninstall"
 alias sv="source venv/bin/activate"
 alias we="~/.config/i3/connect_wifi.sh"
 alias x="sxiv"
@@ -195,22 +185,34 @@ alias pig="ping google.com"
 alias male="make"
 alias sl="ls"
 alias ды="ls"
+alias :q="exit"
 
 alias g="git"
+alias ga="git add"
 alias gs="git status"
-alias gc="git clone"
+alias gc="git commit"
+alias gcl="git clone"
 alias gpo='git push origin'
-alias gp='git pull'
+alias gpl='git pull'
+alias gch="git checkout"
+alias gd="git diff"
+alias gr="git reset"
+alias grhh="git reset --hard HEAD"
+
 alias tn='tmux new-session -s'
 alias ta='tmux attach -t'
 alias tnd='tmux new-session -s develop'
 alias tad='tmux attach -t develop'
 alias ka="killall"
-alias mkd="mkdir"
+alias mkd="mkdir -pv"
 alias tch="touch"
 alias cls="clear"
 alias hg="history | grep"
-# alias docker="sudo docker"
+
+alias gr="go run"
+alias gt="go test"
+
+alias sc="shellcheck"
 
 alias meh='sudo $(history -p !!)'
                           
@@ -218,8 +220,8 @@ alias cd..='cd ..'
 alias ~='cd ~'
 
 alias ..='cd ..'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
 alias .....='cd ../../../../'           
                
 alias .2='cd ../../'                                      
@@ -229,19 +231,20 @@ alias .5='cd ../../../../..'
                 
 bind 'set completion-ignore-case on'
 
-alias dtp="xinput --disable 11"
-alias etp="xinput --enable 11"
-
-setxkbmap -option caps:swapescape
-setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
-xinput set-float-prop "SynPS/2 Synaptics TouchPad" "libinput Accel Speed" -0.7
-
 set -o vi
 stty -ixon # Disable ctrl-s and ctrl-q.
-#shopt -s autocd # Allows you to cd into directory merely by typing the directory name.
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+echo -ne '\e[1 q'
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+GREEN="\[$(tput setaf 2)\]"
+RED="\[$(tput setaf 1)\]"
+RESET="\[$(tput sgr0)\]"
+
+exitstatus() {
+    last_status=$?
+    [ $last_status -ne 0 ] && echo " $last_status"
+}
+
+PS1="${GREEN}\\u[${RESET}\\w${GREEN}]${RED}\$(exitstatus)${RESET} "
+
+bind -x '"\C-l": clear'
