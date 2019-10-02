@@ -79,9 +79,10 @@ autoload -U colors && colors
 alias v="$EDITOR"
 alias r="ranger"
 alias vf="/home/dim/.config/vifm/scripts/vifmrun"
-alias p3="python3"
+alias p3="pip3"
 alias p="python3"
 alias p3i="pip3 install"
+alias p3u="pip3 uninstall"
 alias sv="source venv/bin/activate"
 alias we="~/.config/i3/connect_wifi.sh"
 alias x="sxiv"
@@ -138,8 +139,8 @@ alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
                 
-alias dtp="xinput --disable 11"
-alias etp="xinput --enable 11"
+# alias dtp="xinput --disable 11"
+# alias etp="xinput --enable 11"
 
 
 ## Setting prompt.
