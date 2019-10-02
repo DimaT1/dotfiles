@@ -32,6 +32,10 @@ set ai " Auto indent
 set si " Smart indent
 set wrap " Wrap lines
 
+" Ex mode
+map q: <Nop>
+nnoremap Q <nop>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocompile, file format
@@ -81,6 +85,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " Plugin 'Valloric/YouCompleteMe'
 " Plugin 'jiangmiao/auto-pairs'
+Plugin 'jceb/vim-orgmode'
 Plugin 'scrooloose/nerdtree'
 Plugin 'junegunn/fzf'
 Plugin 'tpope/vim-surround'
@@ -98,6 +103,7 @@ highlight Pmenu ctermfg=0 ctermbg=15 guifg=#ffffff guibg=#707880
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" map s ys
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocomplete
@@ -190,6 +196,8 @@ let g:neomake_message_sign = {
     \ }
 
 call neomake#configure#automake('nrwi', 200)
+hi NeomakeWarning   ctermbg=8
+hi NeomakeError     ctermbg=4
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other shortcuts
@@ -229,7 +237,7 @@ map <F6> :setlocal spell! spelllang=en_us,ru<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" HTML leader combinations
+" HTML and LaTeX leader combinations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au FileType html map <leader>b o<b></b><Space><Esc>FbT>i
 au FileType html map <leader>1 o<h1></h1><Esc>02f<i
@@ -249,6 +257,24 @@ au FileType html map <leader>/ o<!--  --><Space><Esc>0f a
 au FileType html map <leader>ul o<ul><Enter><li></li><Enter></ul><Esc>0k2f<i
 au FileType html map <leader>li o<li></li><Esc>F>a
 au FileType html map <leader>ol o<ol><Enter><li></li><Enter></ol><Esc>0k2f<i
+
+au FileType tex,plaintex map <leader>p a^{+}<Esc>
+au FileType tex,plaintex map <leader>s a^{*}<Esc>
+au FileType tex,plaintex map <leader>m a$$<Esc>
+au FileType tex,plaintex map <leader>t a\theorem{}{}<Esc>2h
+au FileType tex,plaintex map <leader>r a\rank<Esc>
+au FileType tex,plaintex map <leader>k a\ker<Esc>
+au FileType tex,plaintex map <leader>d a\dim<Esc>
+au FileType tex,plaintex map <leader>b a{()}<Esc>h
+au FileType tex,plaintex map <leader>ge a\geqslant<Esc>
+au FileType tex,plaintex map <leader>le a\leqslant<Esc>
+au FileType tex,plaintex map <leader>ne a\neq<Esc>
+au FileType tex,plaintex map <leader>v a\vec{}<Esc>
+au FileType tex,plaintex map <leader>h a\hat{}<Esc>
+au FileType tex,plaintex map <leader>o a\overline{}<Esc>
+au FileType tex,plaintex map <leader>i a\begin{itemize}<Esc>o\item defaul<Esc>o\end{itemize}<Esc>$kb
+au FileType tex,plaintex map <leader>x a\times<Esc>
+
 
 inoremap <leader>c <Esc>/<++><Enter>"_c4l
 vnoremap <leader>c <Esc>/<++><Enter>"_c4l
@@ -279,3 +305,9 @@ au FileType html command Intma :call HTMLma()
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=8
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" tabs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap gn :tabnew<Space>
+nnoremap gh :tabnext<CR>
+nnoremap gl :tabprev<CR>
