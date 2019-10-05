@@ -71,6 +71,8 @@ endfunction
 " :Intma function in .c files
 au FileType c command Intma :call CIntma()
 
+au FileType python set colorcolumn=80
+hi ColorColumn ctermbg=8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
@@ -309,5 +311,5 @@ hi CursorLine   cterm=NONE ctermbg=8
 " tabs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap gn :tabnew<Space>
-nnoremap gh :tabnext<CR>
-nnoremap gl :tabprev<CR>
+nnoremap gl :tabnext<CR>
+nnoremap gh :tabprev<CR>
