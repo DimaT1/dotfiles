@@ -7,6 +7,7 @@
 (require 'undo-tree)
 
 ; Evil mode
+(setq evil-want-C-u-scroll t) ; C-u for scroll up
 (add-to-list 'load-path "~/.emacs.d/evil")
 (require 'evil)
 (evil-mode 1)
@@ -25,6 +26,8 @@
 (global-hl-line-mode 1)
 (set-face-attribute 'hl-line nil :inherit nil :background "gray90")
 
+(setq-default show-trailing-whitespace t)
+
 ; Packages
 (require 'package)
 (add-to-list 'package-archives
@@ -32,6 +35,12 @@
 (package-initialize)
 (package-install 'use-package)
 (require 'use-package)
+
+; vim-like surround
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 
 ; Linter
 (use-package flycheck
