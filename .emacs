@@ -11,6 +11,9 @@
 (add-to-list 'load-path "~/.emacs.d/evil")
 (require 'evil)
 (evil-mode 1)
+(with-eval-after-load 'evil-maps
+  (define-key evil-normal-state-map (kbd "C-n") nil)
+  (define-key evil-normal-state-map (kbd "C-p") nil))
 
 ; Evil mode window motions
 (define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
@@ -81,9 +84,24 @@
 	company-dabbrev-downcase        nil
 	company-backends                '((company-irony company-gtags))
 	)
-  :bind ("C-n" . company-complete-common)
+  ; :bind ("C-n" . company-complete-common)
   )
 (company-tng-configure-default)
+
+; NeoTree
+(require 'neotree)
+(global-unset-key "\C-n")
+(global-set-key (kbd "\C-n") 'neotree-toggle)
+(evil-define-key 'normal neotree-mode-map (kbd "\C-n") 'neotree-toggle)
+(evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+(evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+(evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+(evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+(evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-line)
+(evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+(evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+(evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
 
 ; Convert tab to 4 spaces
 (setq-default c-basic-offset 4
@@ -98,9 +116,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(display-battery-mode t)
  '(display-line-numbers (quote relative))
- '(package-selected-packages (quote (irony flycheck use-package)))
+ '(package-selected-packages (quote (neotree irony flycheck use-package)))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -109,3 +126,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(provide '.emacs)
+;;; .emacs ends here
