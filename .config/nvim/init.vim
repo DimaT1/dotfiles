@@ -8,6 +8,9 @@ set nu rnu
 " Leader Key
 let mapleader = ","
 
+" Requires
+" pip install jedi pyls pynvim
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -23,6 +26,8 @@ set shiftwidth=4
 set tabstop=4
 au FileType vue set shiftwidth=2
 au FileType vue set tabstop=2
+au FileType yaml set shiftwidth=2
+au FileType yaml set tabstop=2
 
 " Linebreak on 500 characters
 set lbr
@@ -36,6 +41,17 @@ set wrap " Wrap lines
 map q: <Nop>
 nnoremap Q <nop>
 
+set ttyfast
+
+" To prevent conceal in LaTeX files
+let g:tex_conceal = ''
+
+" To prevent conceal in any file
+set conceallevel=0
+
+" highlight trailing spaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocompile, file format
@@ -46,7 +62,8 @@ au FileType go map <F8> :w <CR> : !clear; go run % <CR>
 " Auto pep8 for python (autopep8 is required)
 au FileType python map <F7> :w <CR> : !clear; autopep8 --in-place % <CR> :e <CR>
 " Run python3 file
-au FileType python map <F8> :w <CR> : !clear; python3 % <CR>
+au FileType python map <F8> :w <CR> :!clear; python3 % <CR>
+au FileType python map <F5> :w <CR> :!pytest --cov --cov-append > .pytest_result <CR> :sp .pytest_result <CR>
 
 " Auto format C/C++ file (clang-format is required)
 au FileType c,cpp,objc map <F7> :w <CR> : !clear; clang-format % >> temp.cpp; mv temp.cpp % <CR> :e <CR>
@@ -69,7 +86,7 @@ call append(line('$'), [ '    printf("Hello World");'
 \                      , '}'])
 endfunction
 " :Intma function in .c files
-au FileType c command Intma :call CIntma()
+" au FileType c command Intma :call CIntma()
 
 au FileType python set colorcolumn=80
 hi ColorColumn ctermbg=8
@@ -91,19 +108,29 @@ Plugin 'jceb/vim-orgmode'
 Plugin 'scrooloose/nerdtree'
 Plugin 'junegunn/fzf'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 Plugin 'junegunn/fzf.vim'
-Plugin 'posva/vim-vue'
+" Plugin 'posva/vim-vue'
 Plugin 'itchyny/lightline.vim'
+Plugin 'Yggdroot/indentLine'
 
 Plugin 'maralla/completor.vim'
 Plugin 'davidhalter/jedi-vim', { 'for': 'python' }
 Plugin 'neomake/neomake'
+
+Plugin 'raimon49/requirements.txt.vim'
+
+Plugin 'flazz/vim-colorschemes'
 
 highlight Pmenu ctermfg=0 ctermbg=15 guifg=#ffffff guibg=#707880
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+" Displaying thin vertical lines at each indentation level
+let g:jedi#use_splits_not_buffers = "right"
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " map s ys
 
@@ -140,6 +167,11 @@ endfunction
 inoremap <expr> <Tab> Tab_Or_Complete()
 set completeopt=menuone,noinsert,noselect
 let g:completor_complete_options='menuone,noinsert,noselect'
+
+let g:completor_clang_binary = '/usr/bin/clang'
+let g:completor_filetype_map = {}
+let g:completor_filetype_map.c = {'ft': 'lsp', 'cmd': 'clangd'}
+let g:completor_filetype_map.cpp = {'ft': 'lsp', 'cmd': 'clangd'}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
@@ -208,7 +240,7 @@ hi NeomakeError     ctermbg=4
 " TODO: auto reload tree
 " Nwerd tree can be reloaded with r key or while reload
 map <C-n> :NERDTreeToggle<CR>:NERDTreeRefreshRoot<CR>
-" let NERDTreeIgnore=['\.o$', '\.out$', '\.pyc$', '\~$'] 
+" let NERDTreeIgnore=['\.o$', '\.out$', '\.pyc$', '\~$']
 let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$', '__pycache__$', '.git$', '.mypy_cache$']
 let NERDTreeShowHidden=1
 
@@ -222,9 +254,23 @@ nnoremap <C-H> <C-W><C-H>
 
 " Smart search
 " silversearcher-ag required
+map <F3> :FZF<CR>
 map <F4> :Ag<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
-" Disable bells 
+" Default fzf layout
+" - down / up / left / right
+" let g:fzf_layout = { 'up': '~40%' }
+
+" In Neovim, you can set up fzf window using a Vim command
+" let g:fzf_layout = { 'window': 'enew' }
+" let g:fzf_layout = { 'window': '-tabnew' }
+" let g:fzf_layout = { 'window': '10new' }
+
+" Disable bells
 set visualbell
 set t_vb=
 
@@ -278,13 +324,13 @@ au FileType tex,plaintex map <leader>i a\begin{itemize}<Esc>o\item defaul<Esc>o\
 au FileType tex,plaintex map <leader>x a\times<Esc>
 
 
-inoremap <leader>c <Esc>/<++><Enter>"_c4l
-vnoremap <leader>c <Esc>/<++><Enter>"_c4l
-map      <leader>c <Esc>/<++><Enter>"_c4l
-
-inoremap <leader>d <Esc>/<++><Enter>"_d4l
-vnoremap <leader>d <Esc>/<++><Enter>"_d4l
-map      <leader>d <Esc>/<++><Enter>"_d4l
+" inoremap <leader>c <Esc>/<++><Enter>"_c4l
+" vnoremap <leader>c <Esc>/<++><Enter>"_c4l
+" map      <leader>c <Esc>/<++><Enter>"_c4l
+" 
+" inoremap <leader>d <Esc>/<++><Enter>"_d4l
+" vnoremap <leader>d <Esc>/<++><Enter>"_d4l
+" map      <leader>d <Esc>/<++><Enter>"_d4l
 
 " Print main to HTML file
 function! HTMLma()
@@ -303,7 +349,25 @@ au FileType html command Intma :call HTMLma()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " nvim color scheme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" colorscheme darkblue
+" Colorschemes I lile
+"
+" colorscheme Atelier_ForestDark
+" colorscheme Revolution
+" colorscheme OceanicNext
+" colorscheme Tomorrow-Night
+" colorscheme badwolf " ---
+" colorscheme beekai " ---
+
+" blues colorscheme
+colorscheme blues
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+hi String ctermfg=109
+hi Number ctermfg=109
+hi Character ctermfg=109
+"
+
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=8
 
@@ -313,3 +377,4 @@ hi CursorLine   cterm=NONE ctermbg=8
 nnoremap gn :tabnew<Space>
 nnoremap gl :tabnext<CR>
 nnoremap gh :tabprev<CR>
+
