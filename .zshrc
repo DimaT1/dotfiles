@@ -5,6 +5,7 @@ stty -ixon
 ## Variables by default
 [ -z "$PAGER" ] && export PAGER=less
 [ -z "$EDITOR" ] && export EDITOR=nvim
+[ -z "$OPENER" ] && export OPENER=rifle
 #export SHELL=/usr/bin/zsh
 export TERM=st-256color
 
@@ -81,8 +82,8 @@ alias r="ranger"
 alias vf="/home/dim/.config/vifm/scripts/vifmrun"
 alias p3="pip3"
 alias p="python3"
-alias p3i="pip3 install"
-alias p3u="pip3 uninstall"
+alias pi="pip install"
+alias pu="pip uninstall"
 alias sv="source venv/bin/activate"
 alias we="~/.config/i3/connect_wifi.sh"
 alias x="sxiv"
@@ -90,6 +91,7 @@ alias m="make"
 alias mcl="make clean"
 alias rf="rifle"
 alias pig="ping google.com"
+alias cwd="pwd | xclip -sel clip"
 
 alias male="make"
 alias sl="ls"
@@ -116,7 +118,6 @@ alias ka="killall"
 alias mkd="mkdir -pv"
 alias tch="touch"
 alias cls="clear"
-alias hg="history | grep"
 
 alias gr="go run"
 alias gt="go test"
@@ -125,29 +126,35 @@ alias sc="shellcheck"
 # alias docker="sudo docker"
 
 alias meh='sudo $(history -p !!)'
-                          
+
 alias cd..='cd ..'
 alias ~='cd ~'
 
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
-alias .....='cd ../../../../'           
-               
-alias .2='cd ../../'                                      
+alias .....='cd ../../../../'
+
+alias .2='cd ../../'
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
-                
+
 # alias dtp="xinput --disable 11"
 # alias etp="xinput --enable 11"
 
+alias tetris="bastet"
+alias tetяis="bastet"
+
+alias outlook="neomutt"
 
 ## Setting prompt.
 autoload -U colors && colors
 #export PROMPT="%0(?..[%{$fg[yellow]%}%?%{$reset_color%}] )%{$fg[red]%}%n%{$reset_color%}@%{$fg[cyan]%}%M%{$reset_color%} %~ %{$fg[red]%}%0(#.#.$)%{$reset_color%} "
-PROMPT='%{$fg[black]$bg[white]%} %n %{$fg[grey]$bg[blue]%} $(pwd | sed 's!/home/dim!~!') %0(?..%{$fg[black]$bg[red]%} %?%] )%{$reset_color%}  '
- 
+# PROMPT='%{$fg[black]$bg[white]%} %n %{$fg[grey]$bg[blue]%} $(pwd | sed 's!/home/dim!~!') %0(?..%{$fg[black]$bg[red]%} %?%] )%{$reset_color%}  '
+
+# PROMPT='%B%{$fg[yellow]%}$(pwd | sed 's!/home/dim!~!')%{$reset_color%}%b> '
+PROMPT='%B%{$fg[yellow]%}%~%{$reset_color%}%b> '
 ## Copied part for git
 setopt prompt_subst
 autoload -Uz vcs_info
@@ -180,3 +187,5 @@ esac
 
 # setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
 
+
+PATH=$PATH:/home/dim/.local/bin

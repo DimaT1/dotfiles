@@ -119,8 +119,17 @@ Plugin 'davidhalter/jedi-vim', { 'for': 'python' }
 Plugin 'neomake/neomake'
 
 Plugin 'raimon49/requirements.txt.vim'
+Plugin 'shmup/vim-sql-syntax'
 
 Plugin 'flazz/vim-colorschemes'
+
+Plugin 'ekalinin/Dockerfile.vim', { 'for': 'dockerfile' }
+Plugin 'gabrielelana/vim-markdown', { 'for': 'markdown' }
+Plugin 'kshenoy/vim-signature'
+Plugin 'RRethy/vim-illuminate'
+
+Plugin 'christoomey/vim-tmux-navigator'
+
 
 highlight Pmenu ctermfg=0 ctermbg=15 guifg=#ffffff guibg=#707880
 
@@ -167,6 +176,8 @@ endfunction
 inoremap <expr> <Tab> Tab_Or_Complete()
 set completeopt=menuone,noinsert,noselect
 let g:completor_complete_options='menuone,noinsert,noselect'
+let g:completor_min_chars=1
+let g:completor_completion_delay=10
 
 let g:completor_clang_binary = '/usr/bin/clang'
 let g:completor_filetype_map = {}
@@ -351,21 +362,22 @@ au FileType html command Intma :call HTMLma()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colorschemes I lile
 "
-" colorscheme Atelier_ForestDark
+" colorscheme
 " colorscheme Revolution
 " colorscheme OceanicNext
 " colorscheme Tomorrow-Night
 " colorscheme badwolf " ---
 " colorscheme beekai " ---
+colorscheme gruvbox
 
 " blues colorscheme
-colorscheme blues
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
-hi String ctermfg=109
-hi Number ctermfg=109
-hi Character ctermfg=109
+" colorscheme blues
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ }
+" hi String ctermfg=109
+" hi Number ctermfg=109
+" hi Character ctermfg=109
 "
 
 set cursorline

@@ -34,6 +34,8 @@ bindsym $mod+Ctrl+l	move right 30
 bindsym $mod+z       gaps outer current plus 5
 bindsym $mod+Ctrl+z gaps outer current minus 5
 
+# bindsym $mod+apostrophe		split horizontal ;; exec st
+# bindsym $mod+slash split vertical ;; exec st
 bindsym $mod+apostrophe		split horizontal ;; exec st
 bindsym $mod+slash split vertical ;; exec st
 
@@ -69,16 +71,16 @@ bindsym $mod+Ctrl+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-set $ws1 "1 (web)"
-set $ws2 "2 (dev)"
-set $ws3 "3 (web)"
-set $ws4 "4 (dev)"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10 (run)"
+set $ws1 "1:α"
+set $ws2 "2:β"
+set $ws3 "3:Γ"
+set $ws4 "4:Δ"
+set $ws5 "5:ε"
+set $ws6 "6:ζ"
+set $ws7 "7:η"
+set $ws8 "8:θ"
+set $ws9 "9:λ"
+set $ws10 "Ω"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1;
@@ -148,9 +150,10 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle       # 
 bindsym XF86MonBrightnessUp exec /home/dim/.scripts/brightness.sh +10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec /home/dim/.scripts/brightness.sh -10 # decrease screen brightness
 
-bindsym $mod+w exec --no-startup-id waterfox
+bindsym $mod+w exec --no-startup-id brave-nightly
+bindsym $mod+e exec --no-startup-id emacs
 bindsym $mod+t exec --no-startup-id telegram-desktop #/home/dim/.config/i3/connect_wifi.sh
-bindsym $mod+c exec --no-startup-id st -e calcurse 
+bindsym $mod+c exec --no-startup-id st -e calcurse
 bindsym $mod+n exec --no-startup-id networkmanager_dmenu
 bindsym Print exec --no-startup-id "maim ~/screenshot.png"
 bindsym Shift+Print exec --no-startup-id "maim -s ~/screenshot.png"

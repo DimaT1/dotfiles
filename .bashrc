@@ -215,20 +215,20 @@ alias gt="go test"
 alias sc="shellcheck"
 
 alias meh='sudo $(history -p !!)'
-                          
+
 alias cd..='cd ..'
 alias ~='cd ~'
 
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
-alias .....='cd ../../../../'           
-               
-alias .2='cd ../../'                                      
+alias .....='cd ../../../../'
+
+alias .2='cd ../../'
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
-                
+
 bind 'set completion-ignore-case on'
 
 set -o vi

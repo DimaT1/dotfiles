@@ -29,3 +29,5 @@ fi
 # xinput set-float-prop "SynPS/2 Synaptics TouchPad" "libinput Accel Speed" -0.7
 # feh --bg-scale ~/Pictures/wg12.jpg
 # msi-keyboard -m normal -c left,white,low -c middle,white,low -c right,white,low
+
+PATH=$PATH:/home/dim/.local/bin

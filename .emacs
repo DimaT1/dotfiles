@@ -127,5 +127,8 @@
  ;; If there is more than one, they won't work right.
  )
 
+; call a shell command
+(shell-command "notify-send 'Welcome Back to Emacs! ' --icon='/usr/share/icons/hicolor/32x32/apps/emacs.png'")
+
 (provide '.emacs)
 ;;; .emacs ends here
