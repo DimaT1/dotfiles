@@ -101,7 +101,6 @@ hi ColorColumn ctermbg=8
 set nocompatible              " don't remember what it actually does
 
 call plug#begin('~/.vim/plugged')
-Plug 'gmarik/Vundle.vim'
 Plug 'jceb/vim-orgmode'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
