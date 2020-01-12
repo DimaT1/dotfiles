@@ -8,8 +8,12 @@ set nu rnu
 " Leader Key
 let mapleader = ","
 
+set viminfo='1000,f1
+
 " Requires
 " pip install jedi pyls pynvim
+" clangd texlab
+" flake8 mypy pylint
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text, tab and indent related
@@ -130,6 +134,11 @@ Plugin 'RRethy/vim-illuminate'
 
 Plugin 'christoomey/vim-tmux-navigator'
 
+Plugin 'tomtom/tcomment_vim'
+Plugin 'tmhedberg/matchit'
+Plugin 'gregsexton/matchtag'
+Plugin 'donRaphaco/neotex', { 'for': 'tex' }
+
 
 highlight Pmenu ctermfg=0 ctermbg=15 guifg=#ffffff guibg=#707880
 
@@ -183,6 +192,7 @@ let g:completor_clang_binary = '/usr/bin/clang'
 let g:completor_filetype_map = {}
 let g:completor_filetype_map.c = {'ft': 'lsp', 'cmd': 'clangd'}
 let g:completor_filetype_map.cpp = {'ft': 'lsp', 'cmd': 'clangd'}
+let g:completor_filetype_map.tex = {'ft': 'lsp', 'cmd': 'texlab'}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
