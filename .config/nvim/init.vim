@@ -298,66 +298,10 @@ map <F6> :setlocal spell! spelllang=en_us,ru<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" HTML and LaTeX leader combinations
+" Snippets
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au FileType html map <leader>b o<b></b><Space><Esc>FbT>i
-au FileType html map <leader>1 o<h1></h1><Esc>02f<i
-au FileType html map <leader>2 o<h2></h2><Esc>02f<i
-au FileType html map <leader>3 o<h3></h3><Esc>02f<i
-au FileType html map <leader>4 o<h4></h4><Esc>02f<i
-au FileType html map <leader>5 o<h5></h5><Esc>02f<i
-au FileType html map <leader>6 o<h6></h6><Esc>02f<i
-au FileType html map <leader>p o<p></p><Esc>02f<i
-au FileType html map <leader>a o<a href=""><++></a><Esc>0f"a
-au FileType html map <leader>im o<img src="" alt="<++>"<++>><Esc>0f"a
-au FileType html map <leader>it o<i></i><Esc>0f>a
-au FileType html map <leader>sm o<small></small><Esc>0f>a
-au FileType html map <leader>ma o<mark></mark><Esc>0f>a
-au FileType html map <leader>q o<q></q><Space><Esc>02f<i
-au FileType html map <leader>/ o<!--  --><Space><Esc>0f a
-au FileType html map <leader>ul o<ul><Enter><li></li><Enter></ul><Esc>0k2f<i
-au FileType html map <leader>li o<li></li><Esc>F>a
-au FileType html map <leader>ol o<ol><Enter><li></li><Enter></ol><Esc>0k2f<i
+source ~/.vim/snippets.vim
 
-au FileType tex,plaintex map <leader>p a^{+}<Esc>
-au FileType tex,plaintex map <leader>s a^{*}<Esc>
-au FileType tex,plaintex map <leader>m a$$<Esc>
-au FileType tex,plaintex map <leader>t a\theorem{}{}<Esc>2h
-au FileType tex,plaintex map <leader>r a\rank<Esc>
-au FileType tex,plaintex map <leader>k a\ker<Esc>
-au FileType tex,plaintex map <leader>d a\dim<Esc>
-au FileType tex,plaintex map <leader>b a{()}<Esc>h
-au FileType tex,plaintex map <leader>ge a\geqslant<Esc>
-au FileType tex,plaintex map <leader>le a\leqslant<Esc>
-au FileType tex,plaintex map <leader>ne a\neq<Esc>
-au FileType tex,plaintex map <leader>v a\vec{}<Esc>
-au FileType tex,plaintex map <leader>h a\hat{}<Esc>
-au FileType tex,plaintex map <leader>o a\overline{}<Esc>
-au FileType tex,plaintex map <leader>i a\begin{itemize}<Esc>o\item defaul<Esc>o\end{itemize}<Esc>$kb
-au FileType tex,plaintex map <leader>x a\times<Esc>
-
-
-" inoremap <leader>c <Esc>/<++><Enter>"_c4l
-" vnoremap <leader>c <Esc>/<++><Enter>"_c4l
-" map      <leader>c <Esc>/<++><Enter>"_c4l
-" 
-" inoremap <leader>d <Esc>/<++><Enter>"_d4l
-" vnoremap <leader>d <Esc>/<++><Enter>"_d4l
-" map      <leader>d <Esc>/<++><Enter>"_d4l
-
-" Print main to HTML file
-function! HTMLma()
-call append(line('^'), [ '<!DOCTYPE html>'
-\                      , '<html>'
-\                      , '<head>'
-\                      , '<title><++></title>'
-\                      , '</head>'
-\                      , '<body>'])
-call append(line('$'), [ '</body>'
-\                      , '</html>'])
-endfunction
-" :Intma function in .c files
-au FileType html command Intma :call HTMLma()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " nvim color scheme
