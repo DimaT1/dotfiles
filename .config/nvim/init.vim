@@ -100,50 +100,43 @@ hi ColorColumn ctermbg=8
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible              " don't remember what it actually does
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
+Plug 'gmarik/Vundle.vim'
+Plug 'jceb/vim-orgmode'
+Plug 'scrooloose/nerdtree'
+Plug 'junegunn/fzf'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'junegunn/fzf.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'Yggdroot/indentLine'
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-" Plugin 'Valloric/YouCompleteMe'
-" Plugin 'jiangmiao/auto-pairs'
-Plugin 'jceb/vim-orgmode'
-Plugin 'scrooloose/nerdtree'
-Plugin 'junegunn/fzf'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'junegunn/fzf.vim'
-" Plugin 'posva/vim-vue'
-Plugin 'itchyny/lightline.vim'
-Plugin 'Yggdroot/indentLine'
+Plug 'maralla/completor.vim'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'neomake/neomake'
 
-Plugin 'maralla/completor.vim'
-Plugin 'davidhalter/jedi-vim', { 'for': 'python' }
-Plugin 'neomake/neomake'
+Plug 'raimon49/requirements.txt.vim'
+Plug 'shmup/vim-sql-syntax'
 
-Plugin 'raimon49/requirements.txt.vim'
-Plugin 'shmup/vim-sql-syntax'
+Plug 'flazz/vim-colorschemes'
 
-Plugin 'flazz/vim-colorschemes'
+Plug 'ekalinin/Dockerfile.vim', { 'for': 'dockerfile' }
+Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
+Plug 'kshenoy/vim-signature'
+Plug 'RRethy/vim-illuminate'
 
-Plugin 'ekalinin/Dockerfile.vim', { 'for': 'dockerfile' }
-Plugin 'gabrielelana/vim-markdown', { 'for': 'markdown' }
-Plugin 'kshenoy/vim-signature'
-Plugin 'RRethy/vim-illuminate'
+Plug 'christoomey/vim-tmux-navigator'
 
-Plugin 'christoomey/vim-tmux-navigator'
-
-Plugin 'tomtom/tcomment_vim'
-Plugin 'tmhedberg/matchit'
-Plugin 'gregsexton/matchtag'
-Plugin 'donRaphaco/neotex', { 'for': 'tex' }
+Plug 'tomtom/tcomment_vim'
+Plug 'tmhedberg/matchit'
+Plug 'gregsexton/matchtag'
+Plug 'donRaphaco/neotex', { 'for': 'tex' }
+call plug#end()
 
 
 highlight Pmenu ctermfg=0 ctermbg=15 guifg=#ffffff guibg=#707880
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype plugin indent on    " required
 
 " Displaying thin vertical lines at each indentation level
@@ -157,7 +150,7 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 " let g:ycm_autoclose_preview_window_after_insertion = 1
-" 
+"
 " " Syntastic
 " let g:syntastic_c_checkers=['make']
 " let g:syntastic_always_populate_loc_list = 1
