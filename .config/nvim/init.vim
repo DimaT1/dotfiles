@@ -130,6 +130,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tmhedberg/matchit'
 Plug 'gregsexton/matchtag'
 Plug 'donRaphaco/neotex', { 'for': 'tex' }
+
+Plug 'mhinz/vim-startify'
 call plug#end()
 
 
@@ -186,6 +188,11 @@ let g:completor_filetype_map.c = {'ft': 'lsp', 'cmd': 'clangd'}
 let g:completor_filetype_map.cpp = {'ft': 'lsp', 'cmd': 'clangd'}
 let g:completor_filetype_map.tex = {'ft': 'lsp', 'cmd': 'texlab'}
 
+noremap <silent> <leader>gd :call completor#do('definition')<CR>
+" noremap <silent> <leader>c :call completor#do('doc')<CR>
+" noremap <silent> <leader>f :call completor#do('format')<CR>
+" noremap <silent> <leader>s :call completor#do('hover')<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -223,12 +230,12 @@ let g:neomake_shellcheck_args = ['-fgcc']
 let g:neomake_python_enabled_makers = ['python3', 'flake8', 'mypy', 'pylint']
 
 let g:neomake_error_sign = {
-    \ 'text': nr2char(10007),
+    \ 'text': '✗',
     \ 'texthl': 'NeomakeErrorSign'
     \ }
 
 let g:neomake_warning_sign = {
-    \ 'text': nr2char(10071),
+    \ 'text': '⚠',
     \ 'texthl': 'NeomakeWarningSign'
     \ }
 
