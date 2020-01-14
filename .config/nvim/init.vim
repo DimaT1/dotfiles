@@ -75,7 +75,7 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'neomake/neomake'
 
 Plug 'raimon49/requirements.txt.vim'
-Plug 'shmup/vim-sql-syntax'
+Plug 'shmup/vim-sql-syntax', { 'for': 'sql' }
 
 Plug 'flazz/vim-colorschemes'
 
