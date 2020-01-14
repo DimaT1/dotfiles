@@ -14,7 +14,8 @@ set viminfo='1000,f1
 " pip install jedi pyls pynvim
 " clangd texlab
 " flake8 mypy pylint
-"
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -53,47 +54,6 @@ let g:tex_conceal = ''
 " To prevent conceal in any file
 set conceallevel=0
 
-" highlight trailing spaces
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Autocompile, file format
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Run golang file
-au FileType go map <F8> :w <CR> : !clear; go run % <CR>
-
-" Auto pep8 for python (autopep8 is required)
-au FileType python map <F7> :w <CR> : !clear; autopep8 --in-place % <CR> :e <CR>
-" Run python3 file
-au FileType python map <F8> :w <CR> :!clear; python3 % <CR>
-au FileType python map <F5> :w <CR> :!pytest --cov --cov-append > .pytest_result <CR> :sp .pytest_result <CR>
-
-" Auto format C/C++ file (clang-format is required)
-au FileType c,cpp,objc map <F7> :w <CR> : !clear; clang-format % >> temp.cpp; mv temp.cpp % <CR> :e <CR>
-" Build & run C++ file with g++ -std=c++11
-au FileType cpp map <F8> :w <CR> : !clear; ~/Projects/cpp/build_n_run_cpp11.sh % <CR>
-
-" Build & run C file with gcc -std=c99
-au FileType c map <F8> :w <CR> : !clear; ~/Projects/cpp/build_n_run_c99.sh % <CR>
-" Build & run C file with tcc
-au FileType c map <F9> :w <CR> : !clear; tcc -run -g % <CR>
-
-
-" Print int main() to C file
-function! CIntma()
-call append(line('^'), [ '#include <stdio.h>'
-\                      , ''
-\                      , 'int main(int argc, char *argv[]) {'])
-call append(line('$'), [ '    printf("Hello World");'
-\                      , '    return 0;'
-\                      , '}'])
-endfunction
-" :Intma function in .c files
-" au FileType c command Intma :call CIntma()
-
-au FileType python set colorcolumn=80
-hi ColorColumn ctermbg=8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
@@ -135,8 +95,6 @@ Plug 'mhinz/vim-startify'
 call plug#end()
 
 
-highlight Pmenu ctermfg=0 ctermbg=15 guifg=#ffffff guibg=#707880
-
 " All of your Plugins must be added before the following line
 filetype plugin indent on    " required
 
@@ -144,22 +102,10 @@ filetype plugin indent on    " required
 let g:jedi#use_splits_not_buffers = "right"
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
-" map s ys
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocomplete
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-"
-" " Syntastic
-" let g:syntastic_c_checkers=['make']
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_check_on_open=1
-" let g:syntastic_enable_signs=1
-" let g:syntastic_error_symbol = '✗'
-" let g:syntastic_warning_symbol = '⚠'
-
 function! Tab_Or_Complete() abort
     " If completor is already open the `tab` cycles through suggested completions.
     if pumvisible()
@@ -193,10 +139,10 @@ noremap <silent> <leader>gd :call completor#do('definition')<CR>
 " noremap <silent> <leader>f :call completor#do('format')<CR>
 " noremap <silent> <leader>s :call completor#do('hover')<CR>
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 function! CheckNeomakeSkip()
 	for linenr in range(5)
 		if match(getline(linenr), 'neomake: skip') != -1
@@ -250,8 +196,6 @@ let g:neomake_message_sign = {
     \ }
 
 call neomake#configure#automake('nrwi', 200)
-hi NeomakeWarning   ctermbg=8
-hi NeomakeError     ctermbg=4
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other shortcuts
@@ -333,8 +277,19 @@ colorscheme gruvbox
 " hi Character ctermfg=109
 "
 
+au FileType python set colorcolumn=80
+hi ColorColumn ctermbg=8
+
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=8
+
+hi NeomakeWarning   ctermbg=8
+hi NeomakeError     ctermbg=4
+
+" highlight trailing spaces
+hi ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tabs
@@ -342,4 +297,3 @@ hi CursorLine   cterm=NONE ctermbg=8
 nnoremap gn :tabnew<Space>
 nnoremap gl :tabnext<CR>
 nnoremap gh :tabprev<CR>
-
