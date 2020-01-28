@@ -34,6 +34,9 @@ au FileType vue set tabstop=2
 au FileType yaml set shiftwidth=2
 au FileType yaml set tabstop=2
 
+au FileType c,cpp,objc map <F7> :w <CR> : !clear; clang-format % >> temp.cpp; mv temp.cpp % <CR> :e <CR>
+
+
 " Linebreak on 500 characters
 set lbr
 set tw=500
@@ -75,11 +78,12 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'neomake/neomake'
 
 Plug 'raimon49/requirements.txt.vim'
-Plug 'shmup/vim-sql-syntax', { 'for': 'sql' }
 
 Plug 'flazz/vim-colorschemes'
+Plug 'wadackel/vim-dogrun'
+Plug 'sainnhe/edge'
 
-Plug 'ekalinin/Dockerfile.vim', { 'for': 'dockerfile' }
+Plug 'sheerun/vim-polyglot'
 Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
 Plug 'kshenoy/vim-signature'
 Plug 'RRethy/vim-illuminate'
@@ -101,6 +105,7 @@ filetype plugin indent on    " required
 " Displaying thin vertical lines at each indentation level
 let g:jedi#use_splits_not_buffers = "right"
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:Illuminate_highlightUnderCursor = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -265,13 +270,23 @@ source ~/.vim/snippets.vim
 " colorscheme Tomorrow-Night
 " colorscheme badwolf " ---
 " colorscheme beekai " ---
-colorscheme gruvbox
+" colorscheme gruvbox
+" colorscheme dogrun
+" important!!
+set termguicolors
+
+" for dark version
+set background=dark
+
+" the configuration options should be placed before `colorscheme edge`
+let g:edge_style = 'neon'
+let g:edge_disable_italic_comment = 1
+
+colorscheme edge
 
 " blues colorscheme
 " colorscheme blues
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ }
+" let g:lightline = {'colorscheme': 'one'}
 " hi String ctermfg=109
 " hi Number ctermfg=109
 " hi Character ctermfg=109
@@ -287,8 +302,14 @@ hi NeomakeWarning   ctermbg=8
 hi NeomakeError     ctermbg=4
 
 " highlight trailing spaces
-hi ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
+" hi ExtraWhitespace ctermbg=red guibg=red
+" match ExtraWhitespace /\s\+$/
+
+" i3 config filetype detect
+aug i3config_ft_detection
+  au!
+  au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
+aug end
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
