@@ -9,12 +9,13 @@ set nu rnu
 let mapleader = ","
 
 set viminfo='1000,f1
+set encoding=UTF-8
 
 " Requires
 " pip install jedi pyls pynvim
 " clangd texlab
 " flake8 mypy pylint
-
+" gofmt gocode
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text, tab and indent related
@@ -22,6 +23,8 @@ set viminfo='1000,f1
 " Use spaces instead of tabs
 set expandtab
 au FileType go set noexpandtab
+au FileType c set noexpandtab
+au FileType c set noexpandtab
 
 " Smart tabs
 set smarttab
@@ -35,7 +38,7 @@ au FileType yaml set shiftwidth=2
 au FileType yaml set tabstop=2
 
 au FileType c,cpp,objc map <F7> :w <CR> : !clear; clang-format % >> temp.cpp; mv temp.cpp % <CR> :e <CR>
-
+au FileType go map <F7> :w <CR> : !clear; gofmt % >> temp.cpp; mv temp.cpp % <CR> :e <CR>
 
 " Linebreak on 500 characters
 set lbr
@@ -95,7 +98,14 @@ Plug 'tmhedberg/matchit'
 Plug 'gregsexton/matchtag'
 Plug 'donRaphaco/neotex', { 'for': 'tex' }
 
-Plug 'mhinz/vim-startify'
+Plug 'tpope/vim-fugitive'
+Plug 'arzg/vim-plan9'
+
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'ryanoasis/vim-devicons'
+
+Plug 'szw/vim-tags'
+
 call plug#end()
 
 
@@ -104,9 +114,11 @@ filetype plugin indent on    " required
 
 " Displaying thin vertical lines at each indentation level
 let g:jedi#use_splits_not_buffers = "right"
+let g:jedi#show_call_signatures = "2"
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:Illuminate_highlightUnderCursor = 0
 
+let g:vim_tags_auto_generate = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocomplete
@@ -134,10 +146,12 @@ let g:completor_min_chars=1
 let g:completor_completion_delay=10
 
 let g:completor_clang_binary = '/usr/bin/clang'
+let g:completor_gocode_binary = '/home/dim/go/bin/gocode'
 let g:completor_filetype_map = {}
 let g:completor_filetype_map.c = {'ft': 'lsp', 'cmd': 'clangd'}
 let g:completor_filetype_map.cpp = {'ft': 'lsp', 'cmd': 'clangd'}
 let g:completor_filetype_map.tex = {'ft': 'lsp', 'cmd': 'texlab'}
+" let g:completor_filetype_map.go = {'ft': 'lsp', 'cmd': 'gopls'}
 
 noremap <silent> <leader>gd :call completor#do('definition')<CR>
 " noremap <silent> <leader>c :call completor#do('doc')<CR>
@@ -179,6 +193,7 @@ let g:neomake_highlight_lines = 1
 let g:neomake_highlight_columns = 0
 let g:neomake_shellcheck_args = ['-fgcc']
 let g:neomake_python_enabled_makers = ['python3', 'flake8', 'mypy', 'pylint']
+let g:neomake_go_enabled_makers = ['go', 'golint', 'golangci_lint']
 
 let g:neomake_error_sign = {
     \ 'text': '✗',
@@ -200,7 +215,7 @@ let g:neomake_message_sign = {
     \ 'texthl': 'NeomakeMessageSign'
     \ }
 
-call neomake#configure#automake('nrwi', 200)
+call neomake#configure#automake('nrwi')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other shortcuts
@@ -214,6 +229,8 @@ let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$', '__pycache__$', '.git$', '.mypy_cac
 let NERDTreeShowHidden=1
 
 nnoremap Y y$
+nnoremap H 0
+nnoremap L $
 
 " split screen navigation
 nnoremap <C-J> <C-W><C-J>
@@ -229,6 +246,8 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
+
+nnoremap <C-f> :Clap blines <CR>
 
 " Default fzf layout
 " - down / up / left / right
@@ -283,6 +302,7 @@ let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 
 colorscheme edge
+" colorscheme hybrid
 
 " blues colorscheme
 " colorscheme blues
