@@ -12,10 +12,10 @@ set viminfo='1000,f1
 set encoding=UTF-8
 
 " Requires
-" pip install jedi pyls pynvim
+" pip install jedi pyls pynvim flake8 mypy pylint
 " clangd texlab
-" flake8 mypy pylint
 " gofmt gocode
+" ctags ripgrep
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text, tab and indent related
@@ -32,6 +32,8 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+au FileType javascript set shiftwidth=2
+au FileType javascript set tabstop=2
 au FileType vue set shiftwidth=2
 au FileType vue set tabstop=2
 au FileType yaml set shiftwidth=2
@@ -69,10 +71,8 @@ set nocompatible              " don't remember what it actually does
 call plug#begin('~/.vim/plugged')
 Plug 'jceb/vim-orgmode'
 Plug 'scrooloose/nerdtree'
-Plug 'junegunn/fzf'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 
@@ -105,9 +105,9 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'szw/vim-tags'
+Plug 'tounaishouta/coq.vim'
 
 call plug#end()
-
 
 " All of your Plugins must be added before the following line
 filetype plugin indent on    " required
@@ -119,6 +119,8 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:Illuminate_highlightUnderCursor = 0
 
 let g:vim_tags_auto_generate = 1
+
+let g:polyglot_disabled = ['markdown']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocomplete
@@ -147,10 +149,12 @@ let g:completor_completion_delay=10
 
 let g:completor_clang_binary = '/usr/bin/clang'
 let g:completor_gocode_binary = '/home/dim/go/bin/gocode'
+let g:completor_node_binary = '/usr/bin/node'
 let g:completor_filetype_map = {}
 let g:completor_filetype_map.c = {'ft': 'lsp', 'cmd': 'clangd'}
 let g:completor_filetype_map.cpp = {'ft': 'lsp', 'cmd': 'clangd'}
 let g:completor_filetype_map.tex = {'ft': 'lsp', 'cmd': 'texlab'}
+" let g:completor_filetype_map.dockerfile = {'ft': 'lsp', 'cmd': 'docker-langserver'}
 " let g:completor_filetype_map.go = {'ft': 'lsp', 'cmd': 'gopls'}
 
 noremap <silent> <leader>gd :call completor#do('definition')<CR>
@@ -191,8 +195,20 @@ let g:neomake_python_pylint_maker = {
 
 let g:neomake_highlight_lines = 1
 let g:neomake_highlight_columns = 0
+
+" NeoMake linters config
 let g:neomake_shellcheck_args = ['-fgcc']
-let g:neomake_python_enabled_makers = ['python3', 'flake8', 'mypy', 'pylint']
+let g:neomake_python_enabled_makers = ['python']
+if executable('flake8')
+	let g:neomake_python_enabled_makers += ['flake8']
+endif
+if executable('mypy')
+	let g:neomake_python_enabled_makers += ['mypy']
+endif
+if executable('pylint')
+	let g:neomake_python_enabled_makers += ['pylint']
+endif
+
 let g:neomake_go_enabled_makers = ['go', 'golint', 'golangci_lint']
 
 let g:neomake_error_sign = {
@@ -215,11 +231,14 @@ let g:neomake_message_sign = {
     \ 'texthl': 'NeomakeMessageSign'
     \ }
 
-call neomake#configure#automake('nrwi')
+" Run all makers with 200ms timeout in all modes
+call neomake#configure#automake('nrwi', 200)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other shortcuts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd Filetype coq nnoremap ,, :CoqRunToCursor<CR>
+
 " Open NERDTree with Ctrl-n
 " TODO: auto reload tree
 " Nwerd tree can be reloaded with r key or while reload
@@ -239,24 +258,9 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Smart search
-" silversearcher-ag required
-map <F3> :FZF<CR>
-map <F4> :Ag<CR>
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
+map <F3> :Clap files<CR>
+map <F4> :Clap grep<CR>
 nnoremap <C-f> :Clap blines <CR>
-
-" Default fzf layout
-" - down / up / left / right
-" let g:fzf_layout = { 'up': '~40%' }
-
-" In Neovim, you can set up fzf window using a Vim command
-" let g:fzf_layout = { 'window': 'enew' }
-" let g:fzf_layout = { 'window': '-tabnew' }
-" let g:fzf_layout = { 'window': '10new' }
 
 " Disable bells
 set visualbell
@@ -298,11 +302,21 @@ set termguicolors
 set background=dark
 
 " the configuration options should be placed before `colorscheme edge`
-let g:edge_style = 'neon'
-let g:edge_disable_italic_comment = 1
 
-colorscheme edge
+" let g:edge_style = 'neon'
+" let g:edge_disable_italic_comment = 1
+" colorscheme edge
+
+" colorscheme edge
+
+" colorscheme industry
+highlight Pmenu ctermbg=gray guibg=gray
+
+
+colorscheme Tomorrow-Night-Bright
 " colorscheme hybrid
+"
+" colorscheme darkdevel
 
 " blues colorscheme
 " colorscheme blues
@@ -313,10 +327,11 @@ colorscheme edge
 "
 
 au FileType python set colorcolumn=80
+au FileType cpp set colorcolumn=80
 hi ColorColumn ctermbg=8
 
 set cursorline
-hi CursorLine   cterm=NONE ctermbg=8
+hi CursorLine cterm=NONE ctermbg=8
 
 hi NeomakeWarning   ctermbg=8
 hi NeomakeError     ctermbg=4
@@ -330,6 +345,19 @@ aug i3config_ft_detection
   au!
   au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
 aug end
+
+let g:lightline = {
+    \ 'colorscheme': 'wombat',
+    \ 'active': {
+    \ 	'left': [ [ 'mode', 'paste' ],
+    \             [ 'readonly', 'filename', 'modified', 'gitbranch', 'current_func' ] ]
+    \  },
+    \ 'component_function': {
+    \	'gitbranch': 'fugitive#head',
+    \  }
+    \ }
+set noshowmode
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
