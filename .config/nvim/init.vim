@@ -109,6 +109,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'neovim/nvim-lsp'
+" Plug 'htlsne/asyncomplete-look'
 
 call plug#end()
 
@@ -160,11 +161,14 @@ inoremap <silent><expr> <S-TAB>
     \ <SID>check_back_space() ? "\<TAB>" :
     \ asyncomplete#force_refresh()
 
+
 inoremap <silent><expr> <Space> pumvisible() ? "\<C-y>\<Space>" : "\<Space>"
 inoremap <silent><expr> ( pumvisible() ? "\<C-y>\(" : "\("
 inoremap <silent><expr> ) pumvisible() ? "\<C-y>\)" : "\)"
 inoremap <silent><expr> < pumvisible() ? "\<C-y>\<" : "\<"
 inoremap <silent><expr> > pumvisible() ? "\<C-y>\>" : "\>"
+inoremap <silent><expr> { pumvisible() ? "\<C-y>\{" : "\{"
+inoremap <silent><expr> } pumvisible() ? "\<C-y>\{" : "\}"
 inoremap <silent><expr> . pumvisible() ? "\<C-y>\." : "\."
 inoremap <silent><expr> - pumvisible() ? "\<C-y>\-" : "\-"
 inoremap <silent><expr> ; pumvisible() ? "\<C-y>\;" : "\;"
