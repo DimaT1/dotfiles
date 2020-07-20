@@ -17,6 +17,8 @@ set encoding=UTF-8
 " gofmt gocode
 " ctags ripgrep
 
+set mouse=a
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -76,8 +78,6 @@ Plug 'tpope/vim-repeat'
 Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 
-Plug 'maralla/completor.vim'
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'neomake/neomake'
 
 Plug 'raimon49/requirements.txt.vim'
@@ -104,8 +104,13 @@ Plug 'arzg/vim-plan9'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'szw/vim-tags'
 Plug 'tounaishouta/coq.vim'
+
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'neovim/nvim-lsp'
+Plug 'nvim-lua/completion-nvim'
+" Plug 'steelsojka/completion-buffers'
+Plug 'aca/completion-tabnine', { 'do': './install.sh' }
 
 call plug#end()
 
@@ -113,55 +118,66 @@ call plug#end()
 filetype plugin indent on    " required
 
 " Displaying thin vertical lines at each indentation level
-let g:jedi#use_splits_not_buffers = "right"
-let g:jedi#show_call_signatures = "2"
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:Illuminate_highlightUnderCursor = 0
-
-let g:vim_tags_auto_generate = 1
 
 let g:polyglot_disabled = ['markdown']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Autocomplete
+" Language Servers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! Tab_Or_Complete() abort
-    " If completor is already open the `tab` cycles through suggested completions.
-    if pumvisible()
-        return "\<C-N>"
-    " If completor is not open and we are in the middle of typing a word then
-    " `tab` opens completor menu.
-    elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^[[:keyword:][:ident:]\.]'
-        return "\<C-R>=completor#do('complete')\<CR>"
-    else
-        " If we aren't typing a word and we press `tab` simply do the normal `tab`
-        " action.
-        return "\<Tab>"
-    endif
-endfunction
 
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <Tab> Tab_Or_Complete()
+if executable('clangd')
+    lua require'nvim_lsp'.clangd.setup{}
+endif
+if executable('pyls')
+    lua require'nvim_lsp'.pyls.setup{}
+endif
+if executable('bash-language-server')
+    lua require'nvim_lsp'.bashls.setup{}
+endif
+if executable('gopls')
+    lua require'nvim_lsp'.gopls.setup{}
+endif
+if executable('texlab')
+    lua require'nvim_lsp'.texlab.setup{}
+endif
+
+lua vim.lsp.callbacks['textDocument/publishDiagnostics'] = nil
+nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <leader>d <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <leader>D <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.hover()<CR>
+
+autocmd BufEnter * lua require'completion'.on_attach()
+
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
-let g:completor_complete_options='menuone,noinsert,noselect'
-let g:completor_min_chars=1
-let g:completor_completion_delay=10
 
-let g:completor_clang_binary = '/usr/bin/clang'
-let g:completor_gocode_binary = '/home/dim/go/bin/gocode'
-let g:completor_node_binary = '/usr/bin/node'
-let g:completor_filetype_map = {}
-let g:completor_filetype_map.c = {'ft': 'lsp', 'cmd': 'clangd'}
-let g:completor_filetype_map.cpp = {'ft': 'lsp', 'cmd': 'clangd'}
-let g:completor_filetype_map.tex = {'ft': 'lsp', 'cmd': 'texlab'}
-" let g:completor_filetype_map.dockerfile = {'ft': 'lsp', 'cmd': 'docker-langserver'}
-" let g:completor_filetype_map.go = {'ft': 'lsp', 'cmd': 'gopls'}
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
-noremap <silent> <leader>gd :call completor#do('definition')<CR>
-" noremap <silent> <leader>c :call completor#do('doc')<CR>
-" noremap <silent> <leader>f :call completor#do('format')<CR>
-" noremap <silent> <leader>s :call completor#do('hover')<CR>
+let g:completion_chain_complete_list = {
+    \ 'default': [
+    \    {'complete_items': ['lsp', 'tabnine' ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \]
+\}
 
+" max tabnine completion options(default 7)
+let g:completion_tabnine_max_num_results=7
+
+" sort by tabnine score (default 0)
+let g:completion_tabnine_sort_by_details=1
+
+" max line for tabnine input(default 1000)
+" from current line -1000 ~ +1000 lines is passed as input
+let g:completion_tabnine_max_lines=1000
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
