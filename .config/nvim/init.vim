@@ -109,7 +109,7 @@ Plug 'tounaishouta/coq.vim'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'neovim/nvim-lsp'
 Plug 'nvim-lua/completion-nvim'
-" Plug 'steelsojka/completion-buffers'
+Plug 'steelsojka/completion-buffers'
 Plug 'aca/completion-tabnine', { 'do': './install.sh' }
 
 call plug#end()
@@ -163,7 +163,7 @@ set shortmess+=c
 
 let g:completion_chain_complete_list = {
     \ 'default': [
-    \    {'complete_items': ['lsp', 'tabnine' ]},
+    \    {'complete_items': ['lsp', 'tabnine', 'buffers' ]},
     \    {'mode': '<c-p>'},
     \    {'mode': '<c-n>'}
     \]
