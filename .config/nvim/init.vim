@@ -110,7 +110,6 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'neovim/nvim-lsp'
 Plug 'nvim-lua/completion-nvim'
 Plug 'steelsojka/completion-buffers'
-Plug 'aca/completion-tabnine', { 'do': './install.sh' }
 
 call plug#end()
 
@@ -163,21 +162,11 @@ set shortmess+=c
 
 let g:completion_chain_complete_list = {
     \ 'default': [
-    \    {'complete_items': ['lsp', 'tabnine', 'buffers' ]},
+    \    {'complete_items': ['lsp', 'buffers' ]},
     \    {'mode': '<c-p>'},
     \    {'mode': '<c-n>'}
     \]
 \}
-
-" max tabnine completion options(default 7)
-let g:completion_tabnine_max_num_results=7
-
-" sort by tabnine score (default 0)
-let g:completion_tabnine_sort_by_details=1
-
-" max line for tabnine input(default 1000)
-" from current line -1000 ~ +1000 lines is passed as input
-let g:completion_tabnine_max_lines=1000
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
