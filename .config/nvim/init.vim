@@ -1,5 +1,3 @@
-" Auto update file when it is changed outside vim
-" TODO: does not work as it expected with nvim
 set autoread
 
 " Aesthetic line numeration
@@ -40,6 +38,8 @@ au FileType vue set shiftwidth=2
 au FileType vue set tabstop=2
 au FileType yaml set shiftwidth=2
 au FileType yaml set tabstop=2
+au FileType cpp set shiftwidth=2
+au FileType cpp set tabstop=2
 
 au FileType c,cpp,objc map <F7> :w <CR> : !clear; clang-format % >> temp.cpp; mv temp.cpp % <CR> :e <CR>
 au FileType go map <F7> :w <CR> : !clear; gofmt % >> temp.cpp; mv temp.cpp % <CR> :e <CR>
@@ -101,12 +101,15 @@ Plug 'donRaphaco/neotex', { 'for': 'tex' }
 Plug 'tpope/vim-fugitive'
 Plug 'arzg/vim-plan9'
 
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'tounaishouta/coq.vim'
 
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+" Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'neovim/nvim-lsp'
 Plug 'nvim-lua/completion-nvim'
 Plug 'steelsojka/completion-buffers'
@@ -150,23 +153,64 @@ nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.hover()<CR>
 
 autocmd BufEnter * lua require'completion'.on_attach()
 
+let g:completion_enable_auto_popup = 0
+inoremap <silent><expr> <c-p> completion#trigger_completion()
+inoremap <silent><expr> <c-n> completion#trigger_completion()
+
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noinsert,noselect,longest
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
 let g:completion_chain_complete_list = {
     \ 'default': [
-    \    {'complete_items': ['lsp', 'buffers' ]},
+    \    {'complete_items': ['buffers', ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \],
+    \ 'c': [
+    \    {'complete_items': ['lsp', ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \],
+    \ 'cpp': [
+    \    {'complete_items': ['lsp', ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \],
+    \ 'python': [
+    \    {'complete_items': ['lsp', ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \],
+    \ 'sh': [
+    \    {'complete_items': ['lsp', ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \],
+    \ 'go': [
+    \    {'complete_items': ['lsp', ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \],
+    \ 'tex': [
+    \    {'complete_items': ['lsp', ]},
+    \    {'mode': '<c-p>'},
+    \    {'mode': '<c-n>'}
+    \],
+    \ 'latex': [
+    \    {'complete_items': ['lsp', ]},
     \    {'mode': '<c-p>'},
     \    {'mode': '<c-n>'}
     \]
 \}
+
+map <F8> :lua require'completion'.addCompletionSource('buffers', require'buffers'.complete_item)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
@@ -263,9 +307,13 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Smart search
-map <F3> :Clap files<CR>
-map <F4> :Clap grep<CR>
-nnoremap <C-f> :Clap blines <CR>
+" map <F3> :Clap files<CR>
+" map <F4> :Clap grep<CR>
+" nnoremap <C-f> :Clap blines <CR>
+"
+map <F3> :Files<CR>
+map <F4> :Ag<CR>
+nnoremap <C-f> :Lines<CR>
 
 " Disable bells
 set visualbell
@@ -318,7 +366,8 @@ set background=dark
 highlight Pmenu ctermbg=gray guibg=gray
 
 
-colorscheme Tomorrow-Night-Bright
+" colorscheme Tomorrow-Night-Bright
+colorscheme PerfectDark
 " colorscheme hybrid
 "
 " colorscheme darkdevel
@@ -352,7 +401,7 @@ aug i3config_ft_detection
 aug end
 
 let g:lightline = {
-    \ 'colorscheme': 'wombat',
+    \ 'colorscheme': 'powerline',
     \ 'active': {
     \ 	'left': [ [ 'mode', 'paste' ],
     \             [ 'readonly', 'filename', 'modified', 'gitbranch', 'current_func' ] ]
@@ -371,3 +420,19 @@ set noshowmode
 nnoremap gn :tabnew<Space>
 nnoremap gl :tabnext<CR>
 nnoremap gh :tabprev<CR>
+
+nnoremap <C-e>     :tabnew<CR>
+inoremap <C-e>     <Esc>:tabnew<CR>
+
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+tnoremap <Esc> <C-\><C-n>
