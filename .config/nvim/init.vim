@@ -245,6 +245,28 @@ let g:neomake_python_pylint_maker = {
 let g:neomake_highlight_lines = 1
 let g:neomake_highlight_columns = 0
 
+" TODO fix cpplint cppcheck integration
+let g:neomake_cpp_clang_args = ["-std=c++17", "-Wall", "Wc++17-extensions", "-fsanitize=undefined","-g"]
+let g:neomake_cpp_clangcheck_maker = {
+    \ 'exe': '/usr/bin/clang-check',
+    \ 'args': ['-extra-arg=-std=c++17'],
+    \}
+let g:neomake_cpp_clangtidy_maker = {
+    \ 'exe': '/usr/bin/clang-tidy',
+    \ 'args': ['-extra-arg=-std=c++17'],
+    \}
+let g:neomake_cpp_cppcheck_maker = {
+    \ 'exe': '/usr/bin/cppcheck',
+    \ 'args': ['--quiet', '--enable=all', '--inconclusive', '--suppress=missingIncludeSystem'],
+    \}
+" let g:neomake_cpp_cpplint_maker = {
+"     \ 'exe': '/usr/bin/cpplint',
+"     \ 'args': ['--verbose=3'],
+"     \ 'errorformat':
+"     \     '%A%f:%l:  %m [%t],' .
+"     \     '%-G%.%#'
+"     \ }
+
 " NeoMake linters config
 let g:neomake_shellcheck_args = ['-fgcc']
 let g:neomake_python_enabled_makers = ['python']
